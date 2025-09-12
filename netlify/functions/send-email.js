@@ -1,20 +1,15 @@
-// netlify/functions/send-email.js
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
+// CommonJS version (no top-level import syntax errors)
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*", // tighten to your domain if you prefer
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
-export async function handler(event) {
-  // Handle CORS preflight
+exports.handler = async (event) => {
+  // CORS preflight
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: corsHeaders, body: "" };
   }
-
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -24,10 +19,12 @@ export async function handler(event) {
   }
 
   try {
+    const { Resend } = await import("resend"); // safe dynamic ESM import
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     const data = JSON.parse(event.body || "{}");
     const { name, email, phone, message, hp } = data;
 
-    // Simple spam honeypot: if hidden field 'hp' is filled, drop it
     if (hp) {
       return {
         statusCode: 200,
@@ -35,8 +32,6 @@ export async function handler(event) {
         body: JSON.stringify({ ok: true }),
       };
     }
-
-    // Basic validation
     if (!name || !email || !message) {
       return {
         statusCode: 400,
@@ -45,10 +40,9 @@ export async function handler(event) {
       };
     }
 
-    // Use a domain you've verified in Resend (ex: noreply@chumon.ca)
     const from = process.env.FROM_EMAIL || "noreply@chumon.ca";
     const to = process.env.TO_EMAIL || "hello@chumon.ca";
-
+    const subject = `Contact site — ${name}`;
     const html = `
       <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial">
         <h2>Nouveau message du site Chumon</h2>
@@ -60,15 +54,7 @@ export async function handler(event) {
       </div>
     `;
 
-    const subject = `Contact site — ${name}`;
-
-    await resend.emails.send({
-      from,
-      to,
-      subject,
-      html,
-      reply_to: email, // lets you reply directly to the sender
-    });
+    await resend.emails.send({ from, to, subject, html, reply_to: email });
 
     return {
       statusCode: 200,
@@ -83,9 +69,8 @@ export async function handler(event) {
       body: JSON.stringify({ error: "Server error" }),
     };
   }
-}
+};
 
-// Tiny HTML escaper
 function escapeHtml(s = "") {
   return s
     .replaceAll("&", "&amp;")
