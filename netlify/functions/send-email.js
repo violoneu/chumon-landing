@@ -61,6 +61,7 @@ exports.handler = async (event) => {
         <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
       </div>
     `;
+    console.log("FROM used:", from);
 
     // Resend HTTP API
     const resp = await fetch("https://api.resend.com/emails", {
