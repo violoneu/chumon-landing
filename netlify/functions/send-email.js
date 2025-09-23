@@ -1,12 +1,11 @@
-// netlify/functions/send-email.js
-// CommonJS, zero external deps
+// netlify/functions/send-email.js  (ESM)
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: corsHeaders, body: "" };
   }
@@ -48,7 +47,7 @@ exports.handler = async (event) => {
       };
     }
 
-    const from = FROM_EMAIL || "noreply@chumon.ca";
+    const from = TO_EMAIL && FROM_EMAIL ? FROM_EMAIL : "noreply@chumon.ca";
     const to = TO_EMAIL || "hello@chumon.ca";
     const subject = `Contact site — ${name}`;
     const html = `
@@ -61,9 +60,8 @@ exports.handler = async (event) => {
         <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
       </div>
     `;
-    console.log("FROM used:", from);
 
-    // Resend HTTP API
+    // Node 18+ on Netlify has fetch built-in
     const resp = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
