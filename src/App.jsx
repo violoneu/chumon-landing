@@ -231,6 +231,12 @@ export default function App({ page, lang }) {
                     "I visit teams where they work and check back after launch. I ask what’s changed in their day, what still slows them down, and what we should adjust. That’s how we decide together what goes into the next update.",
                   )}
                 </p>
+                <p>
+                  <a className="arrowlink" href="https://felixsp.com">
+                    {t("Voir le portfolio de Félix", "View Félix’s portfolio")}
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                </p>
               </div>
             </section>
             {notes.length > 0 && (
