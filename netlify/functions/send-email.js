@@ -28,7 +28,7 @@ export const handler = async (event) => {
     }
 
     const data = JSON.parse(event.body || "{}");
-    const { name, email, phone, message, hp } = data;
+    const { name, email, phone, company, message, hp } = data;
 
     // honeypot
     if (hp) {
@@ -47,15 +47,16 @@ export const handler = async (event) => {
       };
     }
 
-    const from = TO_EMAIL && FROM_EMAIL ? FROM_EMAIL : "noreply@chumon.ca";
-    const to = TO_EMAIL || "hello@chumon.ca";
+    const from = FROM_EMAIL || "noreply@chumon.ca";
+    const to = TO_EMAIL || "support@chumon.ca";
     const subject = `Contact site — ${name}`;
     const html = `
       <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial">
         <h2>Nouveau message du site Chumon</h2>
         <p><strong>Nom:</strong> ${escapeHtml(name)}</p>
         <p><strong>Courriel:</strong> ${escapeHtml(email)}</p>
-        <p><strong>Téléphone:</strong> ${escapeHtml(phone || "")}</p>
+        <p><strong>Entreprise:</strong> ${escapeHtml(company || "")}</p>
+        ${phone ? `<p><strong>Téléphone:</strong> ${escapeHtml(phone)}</p>` : ""}
         <hr />
         <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
       </div>

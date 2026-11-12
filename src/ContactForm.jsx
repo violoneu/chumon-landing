@@ -1,103 +1,49 @@
-import React, { useState } from "react";
-import "./ContactForm.css";
-
-const ContactForm = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-    hp: "", // honeypot
-  });
-  const [status, setStatus] = useState("");
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("Envoi en cours…");
-
-    try {
-      const res = await fetch("/.netlify/functions/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      if (!res.ok) {
-        throw new Error("HTTP " + res.status);
-      }
-
-      setStatus("Message envoyé. Merci!");
-      setForm({ name: "", email: "", phone: "", message: "", hp: "" });
-    } catch (err) {
-      console.error(err);
-      setStatus("Erreur d’envoi. Réessayez plus tard.");
-    }
-  };
-
+export default function ContactForm({ en }) {
+  const t = (fr, english) => (en ? english : fr);
   return (
-    <form className="contact-form" onSubmit={handleSubmit}>
-      <h2>Contactez-nous</h2>
-
-      {/* Honeypot visually hidden */}
-      <div className="honeypot" aria-hidden="true">
+    <form
+      id="project-form"
+      action={
+        import.meta.env.VITE_CONTACT_ENDPOINT ||
+        "/.netlify/functions/send-email"
+      }
+      method="post"
+    >
+      <fieldset>
         <label>
-          Ne pas remplir:
+          {t("Nom", "Name")}
+          <input name="name" autoComplete="name" required maxLength="160" />
+        </label>
+        <label>
+          {t("Courriel", "Email")}
           <input
-            type="text"
-            name="hp"
-            value={form.hp}
-            onChange={handleChange}
-            tabIndex={-1}
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            maxLength="254"
           />
         </label>
-      </div>
-
-      <label>
-        Nom:
-        <input
-          type="text"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        Courriel:
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <label>
-        Téléphone:
-        <input
-          type="tel"
-          name="phone"
-          value={form.phone}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Message:
-        <textarea
-          name="message"
-          value={form.message}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      <button type="submit">Envoyer</button>
-      <div className="status-message">{status}</div>
+        <label className="wide">
+          {t("Entreprise (facultatif)", "Company (optional)")}
+          <input name="company" autoComplete="organization" maxLength="200" />
+        </label>
+        <label className="wide">
+          {t("Message", "Message")}
+          <textarea name="message" rows="5" required maxLength="10000" />
+        </label>
+        <input type="hidden" name="hp" value="" />
+      </fieldset>
+      <button className="button" type="submit">
+        {t("Envoyer le message", "Send message")} ↗
+      </button>
+      <p role="status" aria-live="polite"></p>
+      <noscript>
+        {t(
+          "Pour nous joindre sans JavaScript, utilisez le courriel ci-dessus.",
+          "To contact us without JavaScript, use the email address above.",
+        )}
+      </noscript>
     </form>
   );
-};
-
-export default ContactForm;
+}

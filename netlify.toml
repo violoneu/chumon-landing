@@ -13,6 +13,54 @@
   force = true
 
 [[redirects]]
+  from = "/realisations"
+  to = "/#realisations"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/en/work"
+  to = "/en#realisations"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/approche"
+  to = "/#approche"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/en/approach"
+  to = "/en#approche"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/a-propos"
+  to = "/#a-propos"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/en/about"
+  to = "/en#a-propos"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact"
+  to = "/#contact"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/en/contact"
+  to = "/en#contact"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/en/*"
   to = "/en/404.html"
   status = 404

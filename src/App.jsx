@@ -1,41 +1,350 @@
-import pages from './pages.json'
+import { pages, navigation, publishedNotes } from "./content";
+import { products } from "./products";
+import { steps } from "./steps";
+import ContactForm from "./ContactForm";
 
-import { products } from './products'
-const steps = [
-  ['Observer sur place', 'Observe on site', 'On suit les personnes qui font le travail. Où faut-il recopier une information? À quel moment une équipe doit-elle attendre après une autre?', 'We sit with the people doing the work. Where does someone have to enter information twice? When does one team have to wait for another?'],
-  ['Construire avec vous', 'Build with your team', 'On prépare une première version autour du problème observé. Votre équipe l’essaie et on ajuste le parcours pendant qu’il est encore facile à changer.', 'We shape a first version around the problem we saw. Your team tries it, and we adjust the workflow while changes are still easy to make.'],
-  ['Accompagner la mise en service', 'Support the rollout', 'On met l’application en service et on reste en contact avec les personnes qui l’utilisent. Leurs questions et les imprévus du quotidien guident la suite.', 'We put the application into production and stay in touch with the people using it. Their questions and the unexpected parts of a shift guide what happens next.'],
-]
-function Photo({name, hero=false}) {
-  return <img className="photo" src={'/media/'+name+'-960.webp'} srcSet={[480,960,1440].map(w=>'/media/'+name+'-'+w+'.webp '+w+'w').join(', ')} sizes="(max-width: 760px) 100vw, 50vw" width="960" height="720" alt="" loading={hero?'eager':'lazy'} fetchPriority={hero?'high':'auto'}/>
+function Notes({ items }) {
+  return (
+    <ul className="notes-list">
+      {items.map((post) => (
+        <li key={post.path} lang={post.lang}>
+          <time dateTime={post.published}>
+            {new Intl.DateTimeFormat(post.lang + "-CA", {
+              dateStyle: "long",
+              timeZone: "UTC",
+            }).format(new Date(post.published))}
+          </time>
+          <h3>
+            <a href={post.path}>{post.title}</a>
+          </h3>
+          <p>{post.excerpt}</p>
+        </li>
+      ))}
+    </ul>
+  );
 }
-export default function App({page,lang}) {
-  const en=lang==='en'
-  const t=(fr,english)=>en?english:fr
-  const url=id=>pages[id][lang].path
-  const alt=en?'fr':'en'
-  const navIds=['home','work','approach','about','blog','contact']
-  const nav=(id)=> <a key={id} href={url(id)} aria-current={id===page?'page':undefined}>{pages[id][lang].label}</a>
-  const link=(id,label,button=false)=><a className={button?'button':'arrowlink'} href={url(id)}>{label} <span aria-hidden="true">↗</span></a>
-  const contact=()=>link('contact',t('Parler d’un projet','Talk about a project'),true)
-  const logo=<a href={url('home')} aria-label={t('Chumon — Accueil','Chumon — Home')}><img className="wordmark" src="/logo_blanc.svg" alt="Chumon" width="143" height="22"/></a>
-  const method=<ol className="steps">{steps.map(([fr,english,body,translation])=><li key={fr}><h3>{t(fr,english)}</h3><p>{t(body,translation)}</p></li>)}</ol>
-  const cards=<div className="cards">{products.map(p=><article key={p.image}><a href={p.url} className="product"><Photo name={p.image}/><h3>{p.name} <span aria-hidden="true">↗</span></h3></a><p>{p[lang]}</p>{page==='work' && <p>{p.image==='table'?<>{t('À l’accueil, l’équipe doit savoir quel groupe appeler ensuite. Chumon Table tient une liste en français et en anglais. ','At the door, hosts need to know which party to call next. Chumon Table keeps the list in French and English. ')}<a href="https://yoka.ca/">Yokato Yokabai</a>{t(', recommandé par le Guide MICHELIN, l’utilise en service. Ramen Youki est un nouveau partenaire. ', ', recommended by the MICHELIN Guide, uses it during service. Ramen Youki is a new partner. ')}</>:t('En cuisine, préparer une commande demande de savoir ce qu’il reste en stock. Chumon Cuisine réunit les inventaires et les besoins de commande dans une application en service.', 'Preparing an order starts with knowing what is still on the shelf. Chumon Cuisine brings inventory and ordering needs together in a production application.')}</p>}</article>)}</div>
-  const home=page==='home'
-  const headings={work:t('Des outils en service','Tools in service'),approach:t('Du terrain à l’application','From the floor to the application'),about:t('Félix St-Pierre','Félix St-Pierre'),blog:t('Notes du studio','Studio notes'),contact:t('Parlons de votre projet','Tell us about your project'),missing:t('Page introuvable','Page not found')}
-  return <><a className="skip" href="#main">{t('Aller au contenu','Skip to content')}</a><header>{logo}<nav aria-label={t('Navigation principale','Main navigation')}>{navIds.map(nav)}</nav><a className="locale" href={(pages[page]??pages.home)[alt].path} hrefLang={alt+'-CA'}>{alt.toUpperCase()}</a></header>
-  <main id="main">{home?<><section className="hero"><div className="intro"><div className="location"><i/>{t('Studio de développement · Montréal','Software studio · Montréal')}</div><h1>{t('Des logiciels sur mesure,','Custom software,')} <em>{t('prêts à servir','ready for the real world')}</em></h1><p>{t('Chumon est un studio montréalais de développement logiciel sur mesure. On observe le travail sur le terrain, on conçoit une application adaptée au problème, et on la met en service. Puis on reste proche.', 'Chumon is a custom software studio in Montreal. We observe the work on site, build an application around the problem, and stay involved once it’s in service.')}</p><div className="actions">{contact()}{link('work',t('Voir nos réalisations','Explore our work'))}</div></div><figure><Photo name="table" hero/><figcaption><b>Chumon Table</b><span>{t('En service chez Yokato Yokabai','In service at Yokato Yokabai')}</span></figcaption></figure></section>
-  <section><div className="section-head"><h2>{t('Nos réalisations','Our work')}</h2>{link('work',t('Voir les projets','View projects'))}</div><p>{t('Chez Yokato Yokabai, restaurant recommandé par le Guide MICHELIN, Chumon Table accompagne l’équipe à l’accueil en français et en anglais.', 'At MICHELIN Guide-recommended Yokato Yokabai, Chumon Table helps the front-of-house team manage the waitlist in French and English.')}</p>{cards}</section>
-  <section><div className="section-head"><h2>{t('Notre approche','Our approach')}</h2>{link('approach',t('Découvrir notre approche','Explore our approach'))}</div>{method}</section>
-  <section className="section-head"><h2>{t('Notes du studio','Studio notes')}</h2>{link('blog',t('Consulter le blog','Visit the blog'))}</section></>:<>
-  <div className="crumb"><a href={url('home')}>{pages.home[lang].label}</a> / {pages[page]?.[lang].label??'404'}</div><section className="inner"><h1>{headings[page]??pages[page]?.[lang].label}</h1>
-  {page==='work' && <>{cards}<p>{t('Votre équipe rencontre un autre problème? On peut l’observer avec vous et construire un outil de la même manière.', 'Facing a different problem? We can spend time with your team and build a tool the same way.')}</p></>}
-  {page==='approach' && <>{method}{link('work',t('Voir les outils en service','See the tools in service'))}</>}
-  {page==='about' && <p>{t('J’ai fondé Chumon à Montréal. Je développe les outils avec les équipes qui vont s’en servir. Une fois l’application en service, je garde le contact pour comprendre ce qui fonctionne et ce qu’il faut ajuster.', 'I founded Chumon in Montreal. I build tools with the teams who will use them. After launch, I keep in touch to understand what works and what needs adjusting.')}</p>}
-  {page==='blog' && <><p>{t('Des notes sur les choix qu’on fait en développant des outils sur mesure. Le premier article est en préparation.', 'Field notes on the decisions behind our custom tools. Our first article is in preparation.')}</p>{link('work',t('Découvrir les projets','Explore the projects'))}</>}
-  {page==='contact' && <><p>{t('Racontez-nous où le travail se complique, qui s’en occupe et quels outils vous utilisez déjà. On commencera par une conversation sur ce qui se passe sur le terrain.', 'Tell us where the work gets difficult, who handles it, and which tools you already use. We’ll start with a conversation about what happens on the ground.')}</p><a className="button" href="mailto:support@chumon.ca">support@chumon.ca ↗</a></>}
-  {page==='legal' && <p>{t('Le site chumon.ca est exploité par 9507-5503 Québec inc., sous le nom Chumon, à Montréal. Pour joindre le studio','Chumon.ca is operated by 9507-5503 Québec inc., doing business as Chumon in Montreal. Reach the studio at')} <a href="mailto:support@chumon.ca">support@chumon.ca</a>.</p>}
-  {page==='privacy' && <p>{t('Le lien de contact ouvre votre application de courriel. L’adresse de l’expéditeur et le contenu du message que vous envoyez sont transmis au studio. Pour toute question au sujet de ces renseignements, écrivez à', 'The contact link opens your email application. When you send a message, the studio receives your sender address and the message contents. For questions about that information, write to')} <a href="mailto:support@chumon.ca">support@chumon.ca</a>.</p>}
-  {page==='missing' && link('home',t('Revenir à l’accueil','Return home'))}</section></>}
-  {!['missing','contact','legal','privacy'].includes(page)&&<aside><h2>{t('Un problème sur le terrain?', 'A problem on the floor?')}</h2>{contact()}</aside>}</main><footer><div>{logo}<p>9507-5503 Québec inc. · Montréal</p></div><nav aria-label={t('Plan du site','Sitemap')}>{navIds.map(nav)}</nav><nav aria-label={t('Produits et informations','Products and information')}>{products.map(p=><a key={p.name} href={p.url}>{p.name} ↗</a>)}{nav('privacy')}{nav('legal')}</nav></footer></>
+
+export default function App({ page, lang }) {
+  const en = lang === "en",
+    home = page === "home";
+  const t = (fr, eng) => (en ? eng : fr);
+  const base = pages.home[lang].path;
+  const section = (id) => (home ? "" : base) + "#" + id;
+  const alt = en ? "fr" : "en";
+  const info = pages[page]?.[lang];
+  const alternate =
+    pages[page]?.[alt]?.path ??
+    (page.startsWith("post-") ? pages.blog[alt].path : pages.home[alt].path);
+  const notes = publishedNotes(lang);
+  const pending = t("[À COMPLÉTER]", "[TO COMPLETE]");
+  const logo = (
+    <a href={base} aria-label={t("Chumon — Accueil", "Chumon — Home")}>
+      <img
+        className="wordmark"
+        src="/logo_blanc.svg"
+        alt="Chumon"
+        width="143"
+        height="22"
+      />
+    </a>
+  );
+  const menu = (
+    <>
+      {navigation.map(([id, fr, eng]) => (
+        <a key={id} data-section={id} href={section(id)}>
+          {t(fr, eng)}
+        </a>
+      ))}
+      <a
+        aria-current={page === "blog" ? "page" : undefined}
+        href={pages.blog[lang].path}
+      >
+        Blog
+      </a>
+    </>
+  );
+  return (
+    <>
+      <a className="skip" href="#main">
+        {t("Aller au contenu", "Skip to content")}
+      </a>
+      <header>
+        {logo}
+        <button
+          className="menu-toggle"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+        >
+          Menu
+        </button>
+        <nav
+          id="primary-nav"
+          aria-label={t("Navigation principale", "Main navigation")}
+        >
+          {menu}
+        </nav>
+        <a
+          className="locale"
+          href={alternate}
+          data-home={home ? "true" : "false"}
+          hrefLang={alt + "-CA"}
+        >
+          {alt.toUpperCase()}
+        </a>
+      </header>
+      <main id="main">
+        {home ? (
+          <>
+            <section className="hero">
+              <div className="intro">
+                <div className="location">
+                  <i />
+                  {t(
+                    "Studio de développement · Montréal",
+                    "Software studio · Montréal",
+                  )}
+                </div>
+                <h1>
+                  {t("Des logiciels sur mesure,", "Custom software,")}{" "}
+                  <em>{t("prêts à servir", "ready for the real world")}</em>
+                </h1>
+                <p>
+                  {t(
+                    "Chumon est un studio montréalais de développement logiciel sur mesure. On observe le travail sur le terrain, on conçoit une application adaptée au problème, et on la met en service. Puis on reste proche.",
+                    "Chumon is a custom software studio in Montreal. We observe the work on site, build an application around the problem, and stay involved once it’s in service.",
+                  )}
+                </p>
+                <div className="actions">
+                  <a className="button" href="#contact">
+                    {t("Parler d’un projet", "Talk about a project")} ↗
+                  </a>
+                  <a className="arrowlink" href="#realisations">
+                    {t("Voir nos réalisations", "Explore our work")} ↗
+                  </a>
+                </div>
+              </div>
+              <figure>
+                <img
+                  className="photo"
+                  src="/img/hero.webp"
+                  width="1200"
+                  height="900"
+                  fetchPriority="high"
+                  alt=""
+                />
+              </figure>
+            </section>
+            <section id="realisations">
+              <h2>{t("Nos réalisations", "Our work")}</h2>
+              <div className="cards">
+                {products.map((p) => (
+                  <article key={p.image}>
+                    <a href={p.url} className="product">
+                      <img
+                        className="photo"
+                        src={"/media/" + p.image + "-960.webp"}
+                        srcSet={[480, 960, 1440]
+                          .map(
+                            (w) =>
+                              "/media/" +
+                              p.image +
+                              "-" +
+                              w +
+                              ".webp " +
+                              w +
+                              "w",
+                          )
+                          .join(", ")}
+                        sizes="(max-width:760px) 100vw, 50vw"
+                        width="960"
+                        height="720"
+                        loading="lazy"
+                        alt=""
+                      />
+                      <h3>
+                        {p.name} <span aria-hidden="true">↗</span>
+                      </h3>
+                    </a>
+                    <p>
+                      {p.image === "table" ? (
+                        <>
+                          {t(
+                            "Une liste d’attente bilingue en service chez ",
+                            "A bilingual waitlist in service at ",
+                          )}
+                          <a href="https://yoka.ca/">Yokato Yokabai</a>
+                          {t(
+                            ", restaurant recommandé par le Guide MICHELIN. Ramen Youki est aussi partenaire.",
+                            ", a MICHELIN Guide-recommended restaurant. Ramen Youki is also a partner.",
+                          )}
+                        </>
+                      ) : (
+                        p[lang]
+                      )}
+                    </p>
+                    <dl>
+                      {[
+                        t("Le problème", "The problem"),
+                        t("Ce qu’on a construit", "What we built"),
+                        t("Le résultat", "The result"),
+                      ].map((label) => (
+                        <div key={label}>
+                          <dt>{label}</dt>
+                          <dd>{pending}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </article>
+                ))}
+              </div>
+            </section>
+            <section id="approche">
+              <h2>{t("Notre approche", "Our approach")}</h2>
+              <p>
+                {t(
+                  "Pas de forfait figé : on part de votre façon de travailler, et on construit seulement ce qui sert.",
+                  "We start with how your team works and build only what you need, without a fixed package.",
+                )}
+              </p>
+              <ol className="steps">
+                {steps.map(([fr, eng, body, translation]) => (
+                  <li key={fr}>
+                    <h3>{t(fr, eng)}</h3>
+                    <p>{t(body, translation)}</p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+            <section id="a-propos" className="about">
+              <img
+                className="portrait"
+                src="/img/felix.webp"
+                width="640"
+                height="640"
+                alt=""
+                loading="lazy"
+              />
+              <div>
+                <h2>{t("À propos", "About")}</h2>
+                <h3>Félix St-Pierre</h3>
+                <p>
+                  {t(
+                    "J’ai fondé Chumon à Montréal.",
+                    "I founded Chumon in Montreal.",
+                  )}{" "}
+                  {pending}
+                </p>
+                <p>
+                  {t(
+                    "Je travaille directement avec les équipes et je reste proche une fois leur application en service.",
+                    "I work directly with teams and stay involved once their application is in service.",
+                  )}{" "}
+                  {pending}
+                </p>
+              </div>
+            </section>
+            {notes.length > 0 && (
+              <section>
+                <h2>{t("Notes du studio", "Studio notes")}</h2>
+                <Notes items={notes.slice(0, 3)} />
+                <a className="arrowlink" href={pages.blog[lang].path}>
+                  {t("Tous les articles", "All articles")} ↗
+                </a>
+              </section>
+            )}
+            <section id="contact" className="contact">
+              <div>
+                <h2>
+                  {t("Parlons de votre projet", "Tell us about your project")}
+                </h2>
+                <p>
+                  {t(
+                    "Où le travail se complique-t-il pour votre équipe?",
+                    "Where does the work get difficult for your team?",
+                  )}
+                </p>
+                <a href="mailto:support@chumon.ca">support@chumon.ca</a>
+              </div>
+              <ContactForm en={en} />
+            </section>
+          </>
+        ) : (
+          <>
+            <div className="crumb">
+              <a href={base}>{pages.home[lang].label}</a> /{" "}
+              {info?.label ?? "404"}
+            </div>
+            <section className="inner">
+              <h1>
+                {page === "blog"
+                  ? t("Notes du studio", "Studio notes")
+                  : (info?.label ?? t("Page introuvable", "Page not found"))}
+              </h1>
+              {page === "blog" &&
+                (notes.length ? (
+                  <Notes items={notes} />
+                ) : (
+                  <p>
+                    {t(
+                      "Le premier article est en préparation.",
+                      "Our first article is in preparation.",
+                    )}
+                  </p>
+                ))}
+              {page.startsWith("post-") && (
+                <>
+                  <time dateTime={info.published}>{info.published}</time>
+                  {info.paragraphs.map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
+                </>
+              )}
+              {page === "privacy" && (
+                <p>
+                  {t(
+                    "Lorsque vous utilisez le formulaire, le studio reçoit votre nom, votre courriel, votre message et le nom de votre entreprise si vous le fournissez. Pour toute question, écrivez à",
+                    "When you use the form, the studio receives your name, email, message, and company name if provided. For questions, write to",
+                  )}{" "}
+                  <a href="mailto:support@chumon.ca">support@chumon.ca</a>.
+                </p>
+              )}
+              {page === "legal" && (
+                <p>
+                  {t(
+                    "Le site chumon.ca est exploité par 9507-5503 Québec inc., sous le nom Chumon, à Montréal. Pour joindre le studio",
+                    "Chumon.ca is operated by 9507-5503 Québec inc., doing business as Chumon in Montreal. Reach the studio at",
+                  )}{" "}
+                  <a href="mailto:support@chumon.ca">support@chumon.ca</a>.
+                </p>
+              )}
+              {page === "missing" && (
+                <a href={base}>{t("Revenir à l’accueil", "Return home")}</a>
+              )}
+            </section>
+          </>
+        )}
+      </main>
+      <footer>
+        <div>
+          {logo}
+          <p>9507-5503 Québec inc. · Montréal</p>
+        </div>
+        <nav aria-label={t("Plan du site", "Sitemap")}>{menu}</nav>
+        <nav
+          aria-label={t("Produits et informations", "Products and information")}
+        >
+          {products.map((p) => (
+            <a key={p.name} href={p.url}>
+              {p.name} ↗
+            </a>
+          ))}
+          {["privacy", "legal"].map((id) => (
+            <a key={id} href={pages[id][lang].path}>
+              {pages[id][lang].label}
+            </a>
+          ))}
+        </nav>
+      </footer>
+    </>
+  );
 }
