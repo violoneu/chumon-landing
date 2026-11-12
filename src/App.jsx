@@ -143,24 +143,15 @@ export default function App({ page, lang }) {
                     <a href={p.url} className="product">
                       <img
                         className="photo"
-                        src={"/media/" + p.image + "-960.webp"}
-                        srcSet={[480, 960, 1440]
-                          .map(
-                            (w) =>
-                              "/media/" +
-                              p.image +
-                              "-" +
-                              w +
-                              ".webp " +
-                              w +
-                              "w",
-                          )
-                          .join(", ")}
+                        src={p.image === "table" ? `/media/host-stand-${lang}.webp` : "/media/cms-960.webp"}
+                        srcSet={p.image === "table"
+                          ? `/media/host-stand-${lang}-480.webp 480w, /media/host-stand-${lang}.webp 1200w`
+                          : "/media/cms-480.webp 480w, /media/cms-960.webp 960w, /media/cms-1440.webp 1440w"}
                         sizes="(max-width:760px) 100vw, 50vw"
                         width="960"
                         height="720"
                         loading="lazy"
-                        alt=""
+                        alt={p.image === "table" ? t("Liste d’attente sur la tablette à l’accueil", "Waitlist on the tablet at the host stand") : ""}
                       />
                       <h3>
                         {p.name} <span aria-hidden="true">↗</span>
