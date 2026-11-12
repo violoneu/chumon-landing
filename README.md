@@ -1,12 +1,8 @@
-# React + Vite
+# Chumon studio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+French-first React marketing site for chumon.ca. Run `npm ci`, then `npm run dev`. Run `npm run build` to generate static HTML for Netlify in `dist/`. Standard links and language navigation work without JavaScript. Optional Google Analytics uses the existing VITE_GA_MEASUREMENT_ID setting.
 
-Currently, two official plugins are available:
+Bilingual routes and metadata live in src/pages.json. The renderer supplies canonical and alternate links, structured data and the sitemap. Update the sitemap modification date when changing page content. The blog awaits the original French Markdown and its publication metadata.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+After deployment, verify the response status and content type of the sitemap, robots file, both language routes and an unknown URL. Félix can then submit https://chumon.ca/sitemap.xml in Google Search Console and complete the Montreal studio's Google Business Profile.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

@@ -1,0 +1,114 @@
+{
+  "home": {
+    "fr": {
+      "path": "/",
+      "label": "Accueil",
+      "title": "Chumon | Logiciels sur mesure, prêts à servir",
+      "description": "Studio montréalais : on transforme des problèmes concrets en applications sur mesure, prêtes à l'emploi. Preuve : Chumon Table, déjà en service chez Yokato Yokabai."
+    },
+    "en": {
+      "path": "/en",
+      "label": "Home",
+      "title": "Chumon | Custom software, ready for the real world",
+      "description": "A Montreal studio that turns real operational problems into production-ready applications. Proof: Chumon Table, a bilingual waitlist in service at Yokato Yokabai."
+    }
+  },
+  "work": {
+    "fr": {
+      "path": "/realisations",
+      "label": "Réalisations",
+      "title": "Réalisations | Chumon Table et Chumon Cuisine",
+      "description": "Chumon Table, liste d'attente bilingue en service chez Yokato Yokabai, et Chumon Cuisine, un outil de cuisine et d'inventaire. Des applications conçues sur le terrain, prêtes à servir."
+    },
+    "en": {
+      "path": "/en/work",
+      "label": "Work",
+      "title": "Work | Chumon Table and Chumon Cuisine",
+      "description": "Chumon Table, a bilingual waitlist in service at Yokato Yokabai, and Chumon Cuisine, a kitchen and inventory tool. Applications designed on site and shipped into production."
+    }
+  },
+  "approach": {
+    "fr": {
+      "path": "/approche",
+      "label": "Approche",
+      "title": "Notre approche | Du terrain à l'outil en service — Chumon",
+      "description": "Observer le travail sur place, itérer en étroite collaboration, puis mettre l'application en service et l'accompagner. Un studio flexible, pas un logiciel tout-en-un."
+    },
+    "en": {
+      "path": "/en/approach",
+      "label": "Approach",
+      "title": "Our approach | From the floor to an app in service — Chumon",
+      "description": "Observe the work on site, iterate in close collaboration, then ship the application and support it in production. A flexible studio, not a one-size product."
+    }
+  },
+  "about": {
+    "fr": {
+      "path": "/a-propos",
+      "label": "À propos",
+      "title": "À propos de Félix et du studio Chumon",
+      "description": "Félix St-Pierre, fondateur de Chumon à Montréal : un studio de proximité qui conçoit des logiciels sur mesure et reste proche une fois l'outil en service."
+    },
+    "en": {
+      "path": "/en/about",
+      "label": "About",
+      "title": "About Félix and the Chumon studio",
+      "description": "Félix St-Pierre, founder of Chumon in Montreal: a close, hands-on studio that builds custom software and stays close once the tool is in service."
+    }
+  },
+  "blog": {
+    "fr": {
+      "path": "/blog",
+      "label": "Blog",
+      "title": "Blog | Logiciels sur mesure et outils en production — Chumon",
+      "description": "Notes concrètes tirées de nos projets : construire une liste d'attente, livrer une application en service, et choisir entre outil sur mesure et logiciel générique."
+    },
+    "en": {
+      "path": "/en/blog",
+      "label": "Blog",
+      "title": "Blog | Custom software and apps in production — Chumon",
+      "description": "Practical notes from our work: building a waitlist, shipping an application into production, and choosing between custom software and a generic product."
+    }
+  },
+  "contact": {
+    "fr": {
+      "path": "/contact",
+      "label": "Contact",
+      "title": "Contact | Parler d'un projet avec Chumon",
+      "description": "Décrivez le problème concret de votre équipe et les outils déjà en place. On commence par une conversation. Studio à Montréal, support@chumon.ca."
+    },
+    "en": {
+      "path": "/en/contact",
+      "label": "Contact",
+      "title": "Contact | Talk about a project with Chumon",
+      "description": "Tell us about the real problem on your team and the tools you already use. We start with a conversation. Montreal studio, support@chumon.ca."
+    }
+  },
+  "privacy": {
+    "fr": {
+      "path": "/confidentialite",
+      "label": "Confidentialité",
+      "title": "Confidentialité | Chumon",
+      "description": "Comment joindre le studio au sujet des renseignements transmis par courriel."
+    },
+    "en": {
+      "path": "/en/privacy",
+      "label": "Privacy",
+      "title": "Privacy | Chumon",
+      "description": "How to reach Chumon about information sent to the studio by email."
+    }
+  },
+  "legal": {
+    "fr": {
+      "path": "/mentions-legales",
+      "label": "Mentions légales",
+      "title": "Mentions légales | Chumon",
+      "description": "Coordonnées de l’entreprise qui exploite le site Chumon."
+    },
+    "en": {
+      "path": "/en/legal",
+      "label": "Legal notice",
+      "title": "Legal notice | Chumon",
+      "description": "Business and contact information for the operator of the Chumon website."
+    }
+  }
+}
