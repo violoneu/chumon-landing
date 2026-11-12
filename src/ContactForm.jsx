@@ -40,8 +40,8 @@ export default function ContactForm({ en }) {
       <p role="status" aria-live="polite"></p>
       <noscript>
         {t(
-          "Pour nous joindre sans JavaScript, utilisez le courriel ci-dessus.",
-          "To contact us without JavaScript, use the email address above.",
+          "Activez JavaScript pour envoyer votre message.",
+          "Enable JavaScript to send your message.",
         )}
       </noscript>
     </form>

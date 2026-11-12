@@ -13,7 +13,6 @@ const org = {
   name: "Chumon",
   legalName: "9507-5503 Québec inc.",
   url: origin + "/",
-  email: "support@chumon.ca",
   logo: origin + "/chumon_c.svg",
   areaServed: "Québec",
   address: {

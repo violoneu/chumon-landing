@@ -32,13 +32,13 @@
       "path": "/confidentialite",
       "label": "Confidentialité",
       "title": "Confidentialité | Chumon",
-      "description": "Comment joindre le studio au sujet des renseignements transmis par courriel."
+      "description": "Comment joindre le studio au sujet des renseignements transmis par le formulaire de contact."
     },
     "en": {
       "path": "/en/privacy",
       "label": "Privacy",
       "title": "Privacy | Chumon",
-      "description": "How to reach Chumon about information sent to the studio by email."
+      "description": "How to reach Chumon about information sent through the contact form."
     }
   },
   "legal": {

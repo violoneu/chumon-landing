@@ -36,7 +36,6 @@ export default function App({ page, lang }) {
     pages[page]?.[alt]?.path ??
     (page.startsWith("post-") ? pages.blog[alt].path : pages.home[alt].path);
   const notes = publishedNotes(lang);
-  const pending = t("[À COMPLÉTER]", "[TO COMPLETE]");
   const logo = (
     <a href={base} aria-label={t("Chumon — Accueil", "Chumon — Home")}>
       <img
@@ -189,10 +188,10 @@ export default function App({ page, lang }) {
                         t("Le problème", "The problem"),
                         t("Ce qu’on a construit", "What we built"),
                         t("Le résultat", "The result"),
-                      ].map((label) => (
+                      ].map((label, index) => (
                         <div key={label}>
                           <dt>{label}</dt>
-                          <dd>{pending}</dd>
+                          <dd>{p.details[lang][index]}</dd>
                         </div>
                       ))}
                     </dl>
@@ -223,7 +222,7 @@ export default function App({ page, lang }) {
                 src="/img/felix.webp"
                 width="640"
                 height="640"
-                alt=""
+                alt="Félix St-Pierre"
                 loading="lazy"
               />
               <div>
@@ -231,17 +230,15 @@ export default function App({ page, lang }) {
                 <h3>Félix St-Pierre</h3>
                 <p>
                   {t(
-                    "J’ai fondé Chumon à Montréal.",
-                    "I founded Chumon in Montreal.",
-                  )}{" "}
-                  {pending}
+                    "J’ai fondé Chumon à Montréal par passion pour la restauration. Mes premiers projets sont partis de questions qu’on se posait en plein service. Comment prévenir un groupe que sa table est prête? Comment savoir ce que l’équipe précédente a déjà commandé?",
+                    "I started Chumon in Montreal because I love the restaurant business. My first projects began with questions that come up during a shift. How do we tell a party their table is ready? How do we know what the last shift already ordered?",
+                  )}
                 </p>
                 <p>
                   {t(
-                    "Je travaille directement avec les équipes et je reste proche une fois leur application en service.",
-                    "I work directly with teams and stay involved once their application is in service.",
-                  )}{" "}
-                  {pending}
+                    "Je vais voir les équipes sur place et je reviens leur parler après la mise en service. Je leur demande ce qui a changé dans leur journée, où elles perdent encore du temps et ce qu’on devrait ajuster. C’est comme ça que je décide avec elles de la prochaine mise à jour.",
+                    "I visit teams where they work and check back after launch. I ask what’s changed in their day, what still slows them down, and what we should adjust. That’s how we decide together what goes into the next update.",
+                  )}
                 </p>
               </div>
             </section>
@@ -265,7 +262,6 @@ export default function App({ page, lang }) {
                     "Where does the work get difficult for your team?",
                   )}
                 </p>
-                <a href="mailto:support@chumon.ca">support@chumon.ca</a>
               </div>
               <ContactForm en={en} />
             </section>
@@ -304,19 +300,19 @@ export default function App({ page, lang }) {
               {page === "privacy" && (
                 <p>
                   {t(
-                    "Lorsque vous utilisez le formulaire, le studio reçoit votre nom, votre courriel, votre message et le nom de votre entreprise si vous le fournissez. Pour toute question, écrivez à",
-                    "When you use the form, the studio receives your name, email, message, and company name if provided. For questions, write to",
+                    "Lorsque vous utilisez le formulaire, le studio reçoit votre nom, votre courriel, votre message et le nom de votre entreprise si vous le fournissez. Pour toute question, utilisez le",
+                    "When you use the form, the studio receives your name, email, message, and company name if provided. For questions, use the",
                   )}{" "}
-                  <a href="mailto:support@chumon.ca">support@chumon.ca</a>.
+                  <a href={section("contact")}>{t("formulaire de contact", "contact form")}</a>.
                 </p>
               )}
               {page === "legal" && (
                 <p>
                   {t(
-                    "Le site chumon.ca est exploité par 9507-5503 Québec inc., sous le nom Chumon, à Montréal. Pour joindre le studio",
-                    "Chumon.ca is operated by 9507-5503 Québec inc., doing business as Chumon in Montreal. Reach the studio at",
+                    "Le site chumon.ca est exploité par 9507-5503 Québec inc., sous le nom Chumon, à Montréal. Pour joindre le studio, utilisez le",
+                    "Chumon.ca is operated by 9507-5503 Québec inc., doing business as Chumon in Montreal. Reach the studio through the",
                   )}{" "}
-                  <a href="mailto:support@chumon.ca">support@chumon.ca</a>.
+                  <a href={section("contact")}>{t("formulaire de contact", "contact form")}</a>.
                 </p>
               )}
               {page === "missing" && (

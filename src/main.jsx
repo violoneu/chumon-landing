@@ -88,8 +88,8 @@ if (form) {
         : "Merci. Votre message a été envoyé.";
     } catch {
       status.textContent = en
-        ? "Your message could not be sent. Try again or email support@chumon.ca."
-        : "L’envoi a échoué. Réessayez ou écrivez à support@chumon.ca.";
+        ? "Your message could not be sent. Your entries have been kept. Please try again."
+        : "L’envoi a échoué. Votre saisie a été conservée. Veuillez réessayer.";
     } finally {
       button.disabled = false;
     }
