@@ -2,14 +2,18 @@ import staticPages from "./pages.json";
 
 // Each entry contains one published language edition of an article.
 // Group translations with the same id. Drafts have no publication date.
+export const blogEnabled = false;
 export const articles = []
   .filter(
     (article) =>
-      article.published && Date.parse(article.published) <= Date.now(),
+      blogEnabled &&
+      article.published &&
+      Date.parse(article.published) <= Date.now(),
   )
   .sort((a, b) => b.published.localeCompare(a.published));
 
 export const pages = { ...staticPages };
+if (!blogEnabled) delete pages.blog;
 for (const article of articles) {
   const key = "post-" + article.id;
   pages[key] ??= {};

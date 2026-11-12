@@ -1,4 +1,4 @@
-import { pages, navigation, publishedNotes } from "./content";
+import { pages, navigation, publishedNotes, blogEnabled } from "./content";
 import { products } from "./products";
 import { steps } from "./steps";
 import ContactForm from "./ContactForm";
@@ -55,12 +55,14 @@ export default function App({ page, lang }) {
           {t(fr, eng)}
         </a>
       ))}
-      <a
-        aria-current={page === "blog" ? "page" : undefined}
-        href={pages.blog[lang].path}
-      >
-        Blog
-      </a>
+      {blogEnabled && (
+        <a
+          aria-current={page === "blog" ? "page" : undefined}
+          href={pages.blog[lang].path}
+        >
+          Blog
+        </a>
+      )}
     </>
   );
   return (
