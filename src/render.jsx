@@ -6,7 +6,7 @@ import pages from './pages.json'
 const origin = 'https://chumon.ca'
 export const routes = Object.entries(pages).flatMap(([page, pair]) =>
   Object.entries(pair).map(([lang, info]) => ({ page, lang, ...info })))
-const org = {'@type':'Organization','@id':origin+'/#studio',name:'Chumon',legalName:'9507-5503 QuÃ©bec inc.',url:origin+'/',email:'support@chumon.ca',logo:origin+'/chumon_c.svg',areaServed:'QuÃ©bec'}
+const org = {'@type':'Organization','@id':origin+'/#studio',name:'Chumon',legalName:'9507-5503 Québec inc.',url:origin+'/',email:'support@chumon.ca',logo:origin+'/chumon_c.svg',areaServed:'Québec'}
 export function render(template, pathname) {
   const route = routes.find(r => r.path === pathname)
   const lang = route?.lang ?? (pathname.startsWith('/en/')?'en':'fr')
